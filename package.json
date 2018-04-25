@@ -4,6 +4,10 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "prestart:prod": "rm -rf dist && tsc",
+    "start:prod": "node dist/main.js",
+    "start:dev": "nodemon",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
@@ -19,11 +23,20 @@
     "url": "https://github.com/kpfromer/smarttodo-nest/issues"
   },
   "homepage": "https://github.com/kpfromer/smarttodo-nest#readme",
+  "dependencies": {
+    "@nestjs/common": "^5.0.0-beta.3",
+    "@nestjs/core": "^5.0.0-beta.3",
+    "rxjs": "^5.5.6"
+  },
   "devDependencies": {
+    "@types/node": "^9.6.6",
     "@types/jest": "^22.2.3",
     "coveralls": "^3.0.0",
     "jest": "^22.4.3",
-    "ts-jest": "^22.4.4"
+    "ts-jest": "^22.4.4",
+    "typescript": "^2.8.3",
+    "ts-node": "^6.0.0",
+    "tsconfig-paths": "^3.3.1"
   },
   "jest": {
     "moduleFileExtensions": [
