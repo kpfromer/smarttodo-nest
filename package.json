@@ -1,0 +1,19 @@
+{
+  "name": "smarttodo-nest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpfromer/smarttodo-nest.git"
+  },
+  "author": "Kyle Pfromer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kpfromer/smarttodo-nest/issues"
+  },
+  "homepage": "https://github.com/kpfromer/smarttodo-nest#readme"
+}
