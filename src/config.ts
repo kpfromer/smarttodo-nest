@@ -11,7 +11,8 @@ const config = {
     $filter: 'env',
     production: process.env.PORT,
     $default: constants.PORT
-  }
+  },
+  saltNumber: 10
 };
 
 const criteria = {
