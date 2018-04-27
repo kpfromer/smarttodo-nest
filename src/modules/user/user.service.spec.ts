@@ -9,7 +9,8 @@ describe('UserService', () => {
   beforeEach(() => {
     mockUserModel = {
       create: jest.fn(),
-      findOne: jest.fn()
+      findOne: jest.fn(),
+      findById: jest.fn()
     };
 
     userService = new UserService(mockUserModel);
@@ -63,6 +64,23 @@ describe('UserService', () => {
       const result = await userService.findByEmail(email);
 
       expect(mockUserModel.findOne).toHaveBeenCalledWith({email});
+      expect(result).toBe(newUser);
+    });
+  });
+
+  describe('findById', () => {
+    it('should return user by id', async () => {
+      const newUser = jest.fn();
+
+      mockUserModel.findById.mockImplementation(() => ({
+        exec: () => Promise.resolve(newUser)
+      }));
+
+      const id = 'mongoid';
+
+      const result = await userService.findById(id);
+
+      expect(mockUserModel.findById).toHaveBeenCalledWith(id);
       expect(result).toBe(newUser);
     });
   });

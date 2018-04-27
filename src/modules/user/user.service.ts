@@ -16,8 +16,13 @@ export class UserService {
   async findByUsername(username: string): Promise<InstanceType<User> | null> {
     return await this.userModel.findOne({ username }).exec();
   }
+
   async findByEmail(email: string): Promise<InstanceType<User> | null> {
     return await this.userModel.findOne({ email }).exec();
+  }
+
+  async findById(id: string): Promise<InstanceType<User> | null> {
+    return await this.userModel.findById(id).exec();
   }
 
   async doesUsernameOrEmailExist(
