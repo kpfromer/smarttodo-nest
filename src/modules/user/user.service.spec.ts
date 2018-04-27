@@ -139,7 +139,7 @@ describe('UserService', () => {
         matchPassword: jest.fn().mockResolvedValue(true)
       };
 
-      spyOn(userService, 'findByUsername').and.returnValue(Promise.resolve(matchedUser));
+      jest.spyOn(userService, 'findByUsername').mockResolvedValue(matchedUser);
 
       const value = await userService.getValidUser('kpfromer', 'password123');
 
@@ -153,7 +153,7 @@ describe('UserService', () => {
         matchPassword: jest.fn().mockResolvedValue(false)
       };
 
-      spyOn(userService, 'findByUsername').and.returnValue(Promise.resolve(matchedUser));
+      jest.spyOn(userService, 'findByUsername').mockResolvedValue(matchedUser);
 
       const value = await userService.getValidUser('kpfromer', 'password123');
 
@@ -164,7 +164,7 @@ describe('UserService', () => {
     it('should return null if there is no user in database', async () => {
       const noUser = null;
 
-      spyOn(userService, 'findByUsername').and.returnValue(Promise.resolve(noUser));
+      jest.spyOn(userService, 'findByUsername').mockResolvedValue(noUser);
 
       const value = await userService.getValidUser('kpfromer', 'password123');
 
