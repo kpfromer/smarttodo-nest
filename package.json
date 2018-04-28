@@ -33,7 +33,10 @@
     "rxjs": "^5.5.6",
     "typegoose": "^5.0.0",
     "confidence": "^3.0.2",
-    "bcrypt": "^2.0.1"
+    "bcrypt": "^2.0.1",
+    "jsonwebtoken": "^8.2.1",
+    "passport-jwt": "^4.0.0",
+    "passport": "^0.4.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^1.0.0",
@@ -46,6 +49,8 @@
     "ts-node": "^6.0.1",
     "tsconfig-paths": "^3.3.1",
     "typescript": "^2.8.3",
+    "@types/jsonwebtoken": "^7.2.6",
+    "@types/passport": "^0.4.5",
     "@types/mongoose": "^5.0.10"
   },
   "jest": {
