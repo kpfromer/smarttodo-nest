@@ -1,5 +1,5 @@
 import { instanceMethod, InstanceType, pre, prop, Typegoose } from 'typegoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Config } from 'config';
 
 @pre<User>('save', async function(next) {
