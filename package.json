@@ -42,7 +42,7 @@
     "@types/bcrypt": "^1.0.0",
     "@types/confidence": "^1.4.30",
     "@types/jest": "^22.2.3",
-    "@types/node": "^9.6.7",
+    "@types/node": "^10.0.8",
     "coveralls": "^3.0.0",
     "jest": "^22.4.3",
     "ts-jest": "^22.4.4",
