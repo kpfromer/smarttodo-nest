@@ -2,8 +2,9 @@ import * as jwt from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
 import { Config } from '../../config';
 import { UserService } from '../user/user.service';
-import { Token } from './token.interface';
+import { JwtPayload } from './jwt-payload.interface';
 
+// TODO: use email instead of id
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
@@ -11,7 +12,7 @@ export class AuthService {
   async createToken(id: string) {
     const expiresIn = Config.get('/jwtExpire'),
       secretOrKey = Config.get('/jwtSecret');
-    const user = { id } as Token;
+    const user = { id } as JwtPayload;
     const token = jwt.sign(user, secretOrKey, { expiresIn });
     return {
       expires_in: expiresIn,
@@ -19,7 +20,7 @@ export class AuthService {
     };
   }
 
-  async validateUser(user: Token): Promise<boolean> {
-    return !!await this.userService.findById(user.id);
+  async validateUser(user: JwtPayload): Promise<any> {
+    return await this.userService.findById(user.id);
   }
 }

@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { Token } from './token.interface';
+import { JwtPayload } from './jwt-payload.interface';
 import * as jwt from 'jsonwebtoken';
 import { Config } from 'config';
 
@@ -41,7 +41,7 @@ describe('AuthService', () => {
         expires_in: expires,
         access_token: jwttoken
       });
-      expect(jwt.sign).toHaveBeenCalledWith({id: userId}, secret, {expiresIn: expires})
+      expect(jwt.sign).toHaveBeenCalledWith({id: userId}, secret, {expiresIn: expires});
       expect(Config.get).toHaveBeenCalledWith('/jwtExpire');
       expect(Config.get).toHaveBeenCalledWith('/jwtSecret');
     });
@@ -64,7 +64,7 @@ describe('AuthService', () => {
 
       const userToken = {
         id: 'i_am_a_user_id'
-      } as Token;
+      } as JwtPayload;
 
       const valid = await authService.validateUser(userToken);
 
@@ -77,7 +77,7 @@ describe('AuthService', () => {
 
       const userToken = {
         id: 'i_am_a_user_id'
-      } as Token;
+      } as JwtPayload;
 
       const valid = await authService.validateUser(userToken);
 
