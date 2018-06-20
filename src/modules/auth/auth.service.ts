@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { Config } from '../../config';
 import { UserService } from '../user/user.service';
 import { JwtPayload } from './jwt-payload.interface';
+import { User } from '../../model/user.model';
+import { InstanceType } from 'typegoose';
 
 // TODO: use email instead of id
 @Injectable()
@@ -20,7 +22,7 @@ export class AuthService {
     };
   }
 
-  async validateUser(user: JwtPayload): Promise<any> {
+  async validateUser(user: JwtPayload): Promise<InstanceType<User> | null> {
     return await this.userService.findById(user.id);
   }
 }
