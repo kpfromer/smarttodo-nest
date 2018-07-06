@@ -1,8 +1,13 @@
 language: node_js
 node_js:
-      - "10"
+- '10'
 install:
-     - npm install
+- npm install
 script:
-      - npm test
+- npm test
+- npm run test:e2e
 after_success: npm run coverage
+deploy:
+  provider: heroku
+  api_key:
+    secure: r7Qv4zyh/+JmiFTRnFHoatPIyvjXKO+rNVhvk0oA8KFJT6phDt/O8xhzEiaQ+AgwmDy2yk9dT8ioIcm37A/2cTZObc/wg+B4Ld8/53OHQB9ELMzi21knU3FHggK3FiVyyFj9EU/woCay9TZNpwnISMB9tcCmFgR10TRav6qBZKWpsp8ini0XDjSAUsqjJ0SMyl9xPwCVh2LVF6gPUWCcuTe0trpj43W2bqi7MGEx9peWEx9HxtsAd1dMJZG7KLH6GI9QqkBkI/0n4Yl07MiEnNuGpjtMvqkneRw6Npeo5nAU2pqvQSgU4Rmtgb/+SPbiu0Ew0WzMXh++lXIOwmsQEj0MJxAqOfnx5Vav/WyAGjzwlLr6NmCaNPBM2Ig8TNNCCPj6lfHdLk5XUQhCQjyah0zC5mjbQ2jkFFV2JQwB01nJSkKRWrAlkq+kM7WV0LrIfm3tsJoR0a2LpVLKvM7zHmDtGC+sBS8DrwGc9oeCV3MIVhHxzYT6DnOs7k74C8e0f3S7wCyLIWgfeuvEIxwztbUdRhxrkgXdY2Do5obQkFj8v/Jp1Vi3SxrlRKAX+uxanS7Vi4JQxsVuqhVSgSFZkB7jcQL/ig02Mi+9EbFRqa5c27VF9w6XK1cdFcc470o43XeZ/RjQVUY0B3R5P1+wu8KbDpbV6ehaDrrEdj13jZs=
