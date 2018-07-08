@@ -1,6 +1,6 @@
-import { instanceMethod, InstanceType, pre, prop, Typegoose } from 'typegoose';
+import { instanceMethod, InstanceType, pre, prop, staticMethod, Typegoose } from 'typegoose';
 import * as bcrypt from 'bcryptjs';
-import { Config } from 'config';
+import { Config } from '../config';
 
 @pre<User>('save', async function(next) {
   this.password = await bcrypt.hash(this.password, Config.get('/saltNumber'));
