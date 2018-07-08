@@ -12,7 +12,18 @@ const config = {
     production: process.env.PORT,
     $default: constants.PORT
   },
-  saltNumber: 10
+  databaseUrl: {
+    $filter: 'env',
+    production: process.env.MONGO_URL,
+    $default: 'mongodb://localhost/smarttodo-nest'
+  },
+  jwtSecret: {
+    $filter: 'env',
+    production: process.env.JWT_SECRET,
+    $default: 'DEVJWTSECRET'
+  },
+  saltNumber: 10,
+  jwtExpire: 3600
 };
 
 const criteria = {

@@ -4,10 +4,13 @@ import { RouterModule } from 'nest-router';
 import { ROUTES } from './routes';
 import { RegisterModule } from './modules/register/register.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TodoModule } from './modules/todo/todo.module';
+import { LoginModule } from './modules/login/login.module';
+import { Config } from './config';
 
 @Module({
   imports: [
-    TypegooseModule.forRoot('mongodb://localhost/smarttodo-nest'),
+    TypegooseModule.forRoot(Config.get('/databaseUrl')),
     RouterModule.forRoutes(ROUTES),
     RegisterModule,
     AuthModule
