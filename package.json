@@ -15,13 +15,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
-  "now": {
-    "name": "smarttodo-nest",
-    "alias": "smarttodo-nest.now.sh",
-    "env": {
-      "NODE_ENV": "production"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kpfromer/smarttodo-nest.git"

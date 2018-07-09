@@ -1,0 +1,7 @@
+{
+  "name": "smarttodo-nest",
+  "alias": "smarttodo-nest",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
