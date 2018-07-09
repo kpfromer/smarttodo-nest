@@ -4,7 +4,6 @@ import { RouterModule } from 'nest-router';
 import { ROUTES } from './routes';
 import { RegisterModule } from './modules/register/register.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { TodoModule } from './modules/todo/todo.module';
 import { LoginModule } from './modules/login/login.module';
 import { Config } from './config';
 
@@ -12,8 +11,10 @@ import { Config } from './config';
   imports: [
     TypegooseModule.forRoot(Config.get('/databaseUrl')),
     RouterModule.forRoutes(ROUTES),
+    AuthModule,
     RegisterModule,
-    AuthModule
+    TodoModule,
+    LoginModule
   ]
 })
 export class AppModule {}
