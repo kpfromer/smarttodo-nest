@@ -6,9 +6,11 @@ install:
 script:
 - npm test
 - npm run build
+- ls
 after_success: npm run coverage
 deploy:
   provider: elasticbeanstalk
+  skip_cleanup: true
   access_key_id: $ACCESSKEYID
   secret_access_key:
     secure: $SECRETACCESSKEY
@@ -16,6 +18,5 @@ deploy:
   app: "smarttodo-nest"
   env: "SmarttodoNest-env"
   bucket_name: $BUCKETNAME
-  skip_cleanup: true
   on:
     branch: master
