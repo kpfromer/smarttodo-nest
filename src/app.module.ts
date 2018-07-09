@@ -13,7 +13,6 @@ import { Config } from './config';
     RouterModule.forRoutes(ROUTES),
     AuthModule,
     RegisterModule,
-    TodoModule,
     LoginModule
   ]
 })
