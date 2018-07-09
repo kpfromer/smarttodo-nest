@@ -15,5 +15,6 @@ deploy:
   app: "smarttodo-nest"
   env: "SmarttodoNest-env"
   bucket_name: $BUCKETNAME
+  skip_cleanup: true
   on:
     branch: master
