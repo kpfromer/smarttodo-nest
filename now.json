@@ -2,6 +2,9 @@
   "name": "smarttodo-nest",
   "alias": "smarttodo-nest",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "PORT": "@nest-port",
+    "MONGO_URL": "@nest-mongo-url",
+    "JWT_SECRET": "@nest-jwt-secret"
   }
 }
