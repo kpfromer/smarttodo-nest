@@ -8,7 +8,10 @@ script:
 - npm run build
 after_success: npm run coverage
 before_deploy:
-- sed --in-place '/dist/d' .gitignore # Elastic beanstalk uses git deployment and if a file is in the ignore it will not be sent
+- git config user.email "kpfromer2@gmail.com" # See travis/dpl#411
+- git config user.name "Kyle Pfromer"
+- git add --force dist
+- git commit -m "Add dist folder for AWS"
 deploy:
   provider: elasticbeanstalk
   skip_cleanup: true
