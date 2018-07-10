@@ -6,7 +6,7 @@ export class TodoDto {
   readonly description: string;
 
   @IsBoolean()
-  readonly completed: string;
+  readonly completed: boolean;
 }
 
 export class TodosDto {
