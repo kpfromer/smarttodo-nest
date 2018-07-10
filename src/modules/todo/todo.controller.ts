@@ -22,7 +22,7 @@ export class TodoController {
   }
 
   @Post()
-  async createTodo(@UserId() userId, @Body() todos: TodosDto) {
+  async createTodo(@UserId() userId, @Body('todos') todos: TodosDto) {
     return await this.todoService.create(userId, todos);
   }
 

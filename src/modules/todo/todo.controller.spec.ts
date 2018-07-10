@@ -1,4 +1,5 @@
 import { TodoController } from './todo.controller';
+import { TodoDto, TodosDto } from '../../dto/todo.dto';
 
 describe('TodoController', () => {
   let userId, expectedValue;
@@ -37,13 +38,13 @@ describe('TodoController', () => {
         {
           description: 'hello',
           completed: false
-        },
+        } as TodoDto,
         {
           description: 'world',
           completed: true
-        }
+        }  as TodoDto
       ];
-      await expect(todoController.createTodo(userId, todos)).resolves.toBe(expectedValue);
+      await expect(todoController.createTodo(userId, { todos } as TodosDto)).resolves.toBe(expectedValue);
       expect(loggedInService.create).toHaveBeenCalledWith(userId, todos);
     });
   });
