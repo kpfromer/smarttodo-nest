@@ -4,6 +4,7 @@ import { RouterModule } from 'nest-router';
 import { ROUTES } from './routes';
 import { RegisterModule } from './modules/register/register.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TodoModule } from './modules/todo/todo.module';
 import { LoginModule } from './modules/login/login.module';
 import { Config } from './config';
 
@@ -13,7 +14,8 @@ import { Config } from './config';
     RouterModule.forRoutes(ROUTES),
     AuthModule,
     RegisterModule,
-    LoginModule
+    LoginModule,
+    TodoModule
   ]
 })
 export class AppModule {}
