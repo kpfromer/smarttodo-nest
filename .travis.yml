@@ -6,8 +6,9 @@ install:
 script:
 - npm test
 - npm run build
-- ls
 after_success: npm run coverage
+before_deploy:
+- sed --in-place '/dist/d' .gitignore # Elastic beanstalk uses git deployment and if a file is in the ignore it will not be sent
 deploy:
   provider: elasticbeanstalk
   skip_cleanup: true
