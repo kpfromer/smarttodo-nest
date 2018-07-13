@@ -23,7 +23,11 @@ const config = {
     $default: 'DEVJWTSECRET'
   },
   saltNumber: 10,
-  jwtExpire: 3600
+  jwtExpire: {
+    $filter: 'env',
+    production: "5h",
+    $default: "2m"
+  }
 };
 
 const criteria = {
