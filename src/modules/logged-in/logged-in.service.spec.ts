@@ -24,7 +24,9 @@ describe('LoggedInService', () => {
   describe('find', () => {
     beforeEach(() => {
       mockModel.find.mockImplementation(() => ({
-        exec: () => Promise.resolve(modelInstance)
+        lean: () => ({
+          exec: () => Promise.resolve(modelInstance)
+        })
       }));
     });
 
@@ -59,7 +61,9 @@ describe('LoggedInService', () => {
   describe('getById', () => {
     beforeEach(() => {
       mockModel.findOne.mockReturnValue({
-        exec: () => Promise.resolve(modelInstance)
+        lean: () => ({
+          exec: () => Promise.resolve(modelInstance)
+        })
       });
     });
 
@@ -75,42 +79,43 @@ describe('LoggedInService', () => {
       mockModel.create.mockResolvedValue(modelInstance);
     });
 
-    it('creates multiple items', async () => {
-      const items = [
-        {
-          name: 'jake',
-          age: 29
-        },
-        {
-          name: 'paul',
-          age: 54
-        },
-        {
-          name: 'mark',
-          age: 34
-        }
-      ];
-
-      const result = await loggedInService.create(userId, items);
-      expect(result).toBe(modelInstance);
-      expect(mockModel.create).toHaveBeenCalledWith([
-        {
-          userId,
-          name: 'jake',
-          age: 29
-        },
-        {
-          userId,
-          name: 'paul',
-          age: 54
-        },
-        {
-          userId,
-          name: 'mark',
-          age: 34
-        }
-      ]);
-    });
+    // TODO: Update when nestjs allows for proper validation of multiple items
+    // it('creates multiple items', async () => {
+    //   const items = [
+    //     {
+    //       name: 'jake',
+    //       age: 29
+    //     },
+    //     {
+    //       name: 'paul',
+    //       age: 54
+    //     },
+    //     {
+    //       name: 'mark',
+    //       age: 34
+    //     }
+    //   ];
+    //
+    //   const result = await loggedInService.create(userId, items);
+    //   expect(result).toBe(modelInstance);
+    //   expect(mockModel.create).toHaveBeenCalledWith([
+    //     {
+    //       userId,
+    //       name: 'jake',
+    //       age: 29
+    //     },
+    //     {
+    //       userId,
+    //       name: 'paul',
+    //       age: 54
+    //     },
+    //     {
+    //       userId,
+    //       name: 'mark',
+    //       age: 34
+    //     }
+    //   ]);
+    // });
   });
   describe('updateById', () => {
     beforeEach(() => {

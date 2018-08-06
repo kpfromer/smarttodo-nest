@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { TodoDto, TodosDto } from '../../dto/todo.dto';
+import { TodoDto } from '../../dto/todo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserId } from '../../decorators/userid.decorator';
 import { IsObjectIdPipe } from '../../pipe/is-objectid.pipe';
-import { LoggedInService } from '../logged-in/logged-in.service';
 import { InjectModel } from 'nestjs-typegoose';
 import { Todo } from '../../model/todo.model';
 import { ModelType } from 'typegoose';
+import { LoggedInPositionService } from '../logged-in/logged-in-position.service';
 
 @Controller()
 @UseGuards(AuthGuard('jwt'))
@@ -22,8 +22,8 @@ export class TodoController {
   }
 
   @Post()
-  async createTodo(@UserId() userId, @Body('todos') todos: TodosDto) {
-    return await this.todoService.create(userId, todos);
+  async createTodo(@UserId() userId, @Body() todo: TodoDto) {
+    return await this.todoService.create(userId, todo);
   }
 
   @Get(':id')
