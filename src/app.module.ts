@@ -10,7 +10,9 @@ import { Config } from './config';
 
 @Module({
   imports: [
-    TypegooseModule.forRoot(Config.get('/databaseUrl')),
+    TypegooseModule.forRoot(Config.get('/databaseUrl'), {
+      useNewUrlParser: true
+    }),
     RouterModule.forRoutes(ROUTES),
     AuthModule,
     RegisterModule,

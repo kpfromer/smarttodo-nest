@@ -15,7 +15,7 @@ const config = {
   databaseUrl: {
     $filter: 'env',
     production: process.env.MONGO_URL,
-    $default: 'mongodb://localhost/smarttodo-nest'
+    $default: 'mongodb://localhost:27017/smarttodo-nest'
   },
   jwtSecret: {
     $filter: 'env',
