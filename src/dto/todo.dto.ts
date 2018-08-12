@@ -7,11 +7,8 @@ export class TodoDto {
 
   @IsBoolean()
   readonly completed: boolean;
-}
 
-export class TodosDto {
-  @ValidateNested({ each: true })
-  @IsArray()
-  @ArrayNotEmpty()
-  todos: TodoDto[];
+  @IsOptional()
+  @IsInt()
+  readonly position?: number;
 }
