@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`position helper reassignWeightByIndex updates each items weight based on it's index 1`] = `
+Array [
+  Object {
+    "updateOne": Object {
+      "filter": Object {
+        "_id": Object {
+          "toHexString": [Function],
+        },
+      },
+      "update": Object {
+        "_id": Object {
+          "toHexString": [Function],
+        },
+        "name": "Julian",
+        "weight": 0,
+      },
+    },
+  },
+  Object {
+    "updateOne": Object {
+      "filter": Object {
+        "_id": Object {
+          "toHexString": [Function],
+        },
+      },
+      "update": Object {
+        "_id": Object {
+          "toHexString": [Function],
+        },
+        "name": "Mike",
+        "weight": 500,
+      },
+    },
+  },
+  Object {
+    "updateOne": Object {
+      "filter": Object {
+        "_id": Object {
+          "toHexString": [Function],
+        },
+      },
+      "update": Object {
+        "_id": Object {
+          "toHexString": [Function],
+        },
+        "name": "Kathy",
+        "weight": 1000,
+      },
+    },
+  },
+]
+`;
