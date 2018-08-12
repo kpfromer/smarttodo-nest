@@ -6,15 +6,15 @@ import { IsObjectIdPipe } from '../../pipe/is-objectid.pipe';
 import { InjectModel } from 'nestjs-typegoose';
 import { Todo } from '../../model/todo.model';
 import { ModelType } from 'typegoose';
-import { LoggedInPositionService } from '../logged-in/logged-in-position.service';
+import { LoggedInService } from '../logged-in/logged-in.service';
 
 @Controller()
 @UseGuards(AuthGuard('jwt'))
 export class TodoController {
 
-  private readonly todoService: LoggedInPositionService<Todo>;
+  private readonly todoService: LoggedInService<Todo>;
 
-  constructor(@InjectModel(Todo) private readonly todoModel: ModelType<Todo>, @Inject(LoggedInPositionService) todoService) {
+  constructor(@InjectModel(Todo) private readonly todoModel: ModelType<Todo>, @Inject(LoggedInService) todoService) {
     this.todoService = new todoService(todoModel);
   }
 
