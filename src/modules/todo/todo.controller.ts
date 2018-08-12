@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { TodoDto } from '../../dto/todo.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserId } from '../../decorators/userid.decorator';
@@ -12,8 +12,10 @@ import { LoggedInPositionService } from '../logged-in/logged-in-position.service
 @UseGuards(AuthGuard('jwt'))
 export class TodoController {
 
-  constructor(@InjectModel(Todo) private readonly todoModel: ModelType<Todo>, private readonly todoService: LoggedInService<Todo>) {
-    this.todoService.setModel(todoModel);
+  private readonly todoService: LoggedInPositionService<Todo>;
+
+  constructor(@InjectModel(Todo) private readonly todoModel: ModelType<Todo>, @Inject(LoggedInPositionService) todoService) {
+    this.todoService = new todoService(todoModel);
   }
 
   @Get()
