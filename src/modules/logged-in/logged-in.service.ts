@@ -45,7 +45,7 @@ export class LoggedInService<T, R = WithMongoId<T>> {
     delete newModel._id;
     newModel.userId = userId;
     return await this.model
-      .update(this.attachUserId(userId, { _id: id }), newModel, { overwrite: true })
+      .findOneAndUpdate(this.attachUserId(userId, { _id: id }), newModel)
       .exec();
   }
 

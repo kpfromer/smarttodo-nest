@@ -8,7 +8,7 @@ describe('LoggedInService', () => {
       find: jest.fn(),
       findOne: jest.fn(),
       create: jest.fn(),
-      update: jest.fn(),
+      findOneAndUpdate: jest.fn(),
       deleteOne: jest.fn()
     };
     modelInstance = jest.fn();
@@ -117,7 +117,7 @@ describe('LoggedInService', () => {
   });
   describe('updateById', () => {
     beforeEach(() => {
-      mockModel.update.mockReturnValue({
+      mockModel.findOneAndUpdate.mockReturnValue({
         exec: () => Promise.resolve(modelInstance)
       });
     });
@@ -131,7 +131,7 @@ describe('LoggedInService', () => {
       };
       const result = await loggedInService.updateById(userId, id, newItem);
       expect(result).toBe(modelInstance);
-      expect(mockModel.update).toHaveBeenCalledWith({ userId, _id: id }, { ...newItem, userId }, { overwrite: true });
+      expect(mockModel.findOneAndUpdate).toHaveBeenCalledWith({ userId, _id: id }, { ...newItem, userId });
     });
   });
   describe('deleteById', () => {
