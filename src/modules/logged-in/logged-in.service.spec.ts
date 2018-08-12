@@ -16,9 +16,7 @@ describe('LoggedInService', () => {
 
     // jest.spyOn(Config, 'get')
     //   .mockImplementation(value => value === '/userIdProperty' ? userIdProperty : undefined);
-    loggedInService = new LoggedInService();
-
-    loggedInService.setModel(mockModel);
+    loggedInService = new LoggedInService(mockModel);
   });
 
   describe('find', () => {

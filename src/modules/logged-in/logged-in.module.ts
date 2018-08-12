@@ -1,24 +1,12 @@
 import { Module } from '@nestjs/common';
 import { LoggedInService } from './logged-in.service';
 
+const servicesViaProviders = [
+  { provide: LoggedInService, useValue: LoggedInService }
+];
+
 @Module({
-  providers: [LoggedInService],
-  exports: [LoggedInService]
+  providers: servicesViaProviders,
+  exports: servicesViaProviders
 })
 export class LoggedInModule {}
-
-// export const CreateLoggedInService = (service) => ({
-//   forFeature: (): DynamicModule => {
-//     const providers = [
-//       {
-//         provide: `LoggedInService`,
-//         useValue: service
-//       }
-//     ];
-//     return {
-//       module: LoggedInModule,
-//       providers,
-//       exports: providers
-//     };
-//   }
-// });

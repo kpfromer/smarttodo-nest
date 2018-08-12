@@ -10,11 +10,7 @@ export type WithMongoId<T> = T & {
 @Injectable()
 export class LoggedInService<T, R = WithMongoId<T>> {
 
-  protected model: ModelType<T>;
-
-  setModel(model: ModelType<T>) {
-    this.model = model;
-  }
+  constructor (protected readonly model: ModelType<T>) {}
 
   protected static USER_ID_PROPERTY = 'userId';
 
