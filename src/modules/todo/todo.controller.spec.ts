@@ -3,7 +3,7 @@ import { TodoDto } from '../../dto/todo.dto';
 
 describe('TodoController', () => {
   let userId, expectedValue;
-  let todoController, loggedInService, todoModel;
+  let todoController, loggedInServiceClass, loggedInService, todoModel;
 
   beforeEach(() => {
     userId = 'myIdForThisAccount';
@@ -18,11 +18,15 @@ describe('TodoController', () => {
       setModel: jest.fn()
     };
     todoModel = jest.fn();
-    todoController = new TodoController(todoModel, loggedInService);
+
+    loggedInServiceClass = jest.fn()
+      .mockImplementation(() => loggedInService);
+
+    todoController = new TodoController(todoModel, loggedInServiceClass);
   });
 
-  it('sets LoggedInService model to Todo', () => {
-    expect(loggedInService.setModel).toHaveBeenCalledWith(todoModel);
+  it('creates the loggedInService using the Todo model', () => {
+    expect(loggedInServiceClass).toHaveBeenCalledWith(todoModel);
   });
 
   describe('getTodos', () => {
