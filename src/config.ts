@@ -12,6 +12,11 @@ const config = {
     production: process.env.PORT,
     $default: constants.PORT
   },
+  sentryURL: {
+    $filter: 'env',
+    production: process.env.SENTRY_URL,
+    $default: null
+  },
   databaseUrl: {
     $filter: 'env',
     production: process.env.MONGO_URL,
