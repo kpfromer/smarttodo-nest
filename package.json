@@ -32,6 +32,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.8.5",
+    "cls-hooked": "^4.2.2",
     "confidence": "^3.0.2",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.1",
