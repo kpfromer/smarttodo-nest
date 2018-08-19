@@ -2,9 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { ModelType } from 'typegoose';
 import { Types } from 'mongoose';
 import ObjectId = Types.ObjectId;
+import { Document } from 'mongoose';
 
 export type WithMongoId<T> = T & {
   _id: ObjectId
+}
+
+export type WithPlainId<T> = T & {
+  id: string
+}
+
+export type CreatedLoggedInModel<T> = T & Document & {
+  userId: string;
 }
 
 @Injectable()
@@ -12,44 +21,39 @@ export class LoggedInService<T, R = WithMongoId<T>> {
 
   constructor (protected readonly model: ModelType<T>) {}
 
-  protected static USER_ID_PROPERTY = 'userId';
-
-  protected attachUserId = (userId, condition = {}) => ({ ...condition, [LoggedInService.USER_ID_PROPERTY]: userId });
-
-  private combineSelects = (...selects) =>
-    selects.reduce((previousValue, currentValue) => {
-      if (!previousValue) {
-        return currentValue
-      } else {
-        return !!currentValue ? `${previousValue} ${currentValue}` : previousValue
-      }
-    }, '');
-
-  async find(userId, conditions = {}, select = [], ...rest): Promise<R[] | null> {
-    return await this.model.find(this.attachUserId(userId, conditions), this.combineSelects(`-${LoggedInService.USER_ID_PROPERTY}`, ...select), ...rest).lean().exec();
+  sanitize(document: CreatedLoggedInModel<T>) {
+    // Convert to regular object
+    const plainDocument = document.toObject();
+    // Convert _id's ObjectId type to just a string
+    const stringId = plainDocument._id.toHexString();
+    delete plainDocument.userId;
+    delete plainDocument._id
+    return {
+      // @ts-ignore
+      ...plainDocument,
+      id: stringId
+    }
   }
 
-  async getAll(userId): Promise<R[] | null> {
-    return await this.find(userId);
+  async getAll(userId: string, conditions = {}): Promise<WithPlainId<T>[] | null> {
+    return (await this.model.find({ ...conditions, userId }).exec() as CreatedLoggedInModel<T>[]).map(this.sanitize);
   }
 
-  async getById(userId: string, id: string): Promise<R | null> {
-    return await this.model.findOne(this.attachUserId(userId, { _id: id })).lean().exec();
+  async getById(userId: string, id: string): Promise<WithPlainId<T> | null> {
+    return this.sanitize(await this.model.findOne({ userId, _id: id }).exec() as CreatedLoggedInModel<T>);
   }
 
-  async create(userId, item) {
-    return await this.model.create({ ...item, userId });
+  async create(userId: string, item: T) {
+    // @ts-ignore
+    return this.sanitize(await this.model.create({ ...item, userId }) as CreatedLoggedInModel<T>);
   }
 
-  async updateById(userId, id: string, newModel) {
-    delete newModel._id;
-    newModel.userId = userId;
-    return await this.model
-      .findOneAndUpdate(this.attachUserId(userId, { _id: id }), newModel)
-      .exec();
+  async updateById(userId: string, id: string, newItem: T & { id?: string }) {
+    delete newItem.id;
+    return this.sanitize(await this.model.updateOne({ userId, _id: id }, newItem).exec());
   }
 
-  async deleteById(userId, id: string) {
-    return await this.model.deleteOne(this.attachUserId(userId, {_id: id })).exec();
+  async deleteById(userId: string, id: string) {
+    return await this.model.deleteOne({ userId, _id: id }).exec();
   }
 }

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoggedInService create creates an item with user id 1`] = `
+Object {
+  "id": "312",
+  "name": "Macy",
+}
+`;
+
+exports[`LoggedInService getAll returns sanitized data by user id 1`] = `
+Array [
+  Object {
+    "id": "1",
+    "name": "mick",
+  },
+  Object {
+    "id": "2",
+    "name": "joe",
+  },
+]
+`;
+
+exports[`LoggedInService getById gets all items by user id and item id 1`] = `
+Object {
+  "id": "666",
+  "name": "jack daniels",
+}
+`;
+
+exports[`LoggedInService updateById updates an item by id 1`] = `
+Object {
+  "id": "update_id",
+  "name": "jack",
+}
+`;

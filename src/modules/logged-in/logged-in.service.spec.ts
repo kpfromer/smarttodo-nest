@@ -1,150 +1,129 @@
 import { LoggedInService } from './logged-in.service';
 
 describe('LoggedInService', () => {
-  let loggedInService, mockModel, modelInstance, userId;
-
+  let service: LoggedInService<any>, model, userId;
+  let createObjectId, makeDBObject, makeExecMethod;
   beforeEach(() => {
-    mockModel = {
+    createObjectId = (id: string) => ({
+      toHexString: () => id
+    });
+    makeDBObject = (object: object) => ({
+      toObject: () => object
+    });
+    makeExecMethod = (resolvedValue: any) => ({
+      exec: () => Promise.resolve(resolvedValue);
+    });
+    model = {
       find: jest.fn(),
       findOne: jest.fn(),
+      updateOne: jest.fn(),
       create: jest.fn(),
-      findOneAndUpdate: jest.fn(),
       deleteOne: jest.fn()
     };
-    modelInstance = jest.fn();
-    userId = 'a-bunch-of-numbers-letters';
-
-    // jest.spyOn(Config, 'get')
-    //   .mockImplementation(value => value === '/userIdProperty' ? userIdProperty : undefined);
-    loggedInService = new LoggedInService(mockModel);
+    userId = 'user-id-numbers';
+    service = new LoggedInService(model);
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
-  describe('find', () => {
-    beforeEach(() => {
-      mockModel.find.mockImplementation(() => ({
-        lean: () => ({
-          exec: () => Promise.resolve(modelInstance)
-        })
-      }));
-    });
-
-    it('finds an instance using the userId but removes the property on return', async () => {
-      const result = await loggedInService.find(userId);
-
-      expect(result).toBe(modelInstance);
-      expect(mockModel.find).toHaveBeenCalledWith({ userId }, '-userId');
-    });
-    it('finds an instance with a condition', async () => {
-      const conditions = {
-        hello: 'world'
-      };
-      await loggedInService.find(userId, conditions);
-
-      expect(mockModel.find.mock.calls[0][0]).toEqual({
-        ...conditions,
-        userId
-      });
-    });
-  });
+  
   describe('getAll', () => {
+    let conditions;
     beforeEach(() => {
-      jest.spyOn(loggedInService, 'find').mockResolvedValue(modelInstance);
+      model.find.mockReturnValue(makeExecMethod([
+        makeDBObject({
+          _id: createObjectId('1'),
+          name: 'mick',
+          userId
+        }),
+        makeDBObject({
+          _id: createObjectId('2'),
+          name: 'joe',
+          userId
+        })
+      ]));
+      conditions = {
+        name: 'kyle',
+        value: false
+      };
+    })
+    it('returns sanitized data by user id', async () => {
+      const result = await service.getAll(userId);
+      expect(model.find).toHaveBeenCalledWith({ userId });
+      expect(result).toMatchSnapshot();
     });
-    it('finds all', async () => {
-      const result = await loggedInService.getAll(userId);
-      expect(result).toBe(modelInstance);
-      expect(loggedInService.find).toHaveBeenCalledWith(userId);
+    it('filters by conditions', async () => {
+      await service.getAll(userId, conditions);
+      expect(model.find).toBeCalledWith({
+        userId,
+        name: 'kyle',
+        value: false
+      });
     });
   });
   describe('getById', () => {
+    let itemId;
     beforeEach(() => {
-      mockModel.findOne.mockReturnValue({
-        lean: () => ({
-          exec: () => Promise.resolve(modelInstance)
+      model.findOne.mockReturnValue(makeExecMethod(
+        makeDBObject({
+          _id: createObjectId('666'),
+          name: 'jack daniels',
+          userId
         })
-      });
+      ));
+      itemId = 'item_id_123';
     });
-
-    it('finds one item by it\'s id', async () => {
-      const id = 'fadsfad1r';
-      const result = await loggedInService.getById(userId, id);
-      expect(result).toBe(modelInstance);
-      expect(mockModel.findOne).toHaveBeenCalledWith({ userId, _id: id });
+    it('gets all items by user id and item id', async () => {
+      const result = await service.getById(userId, itemId);
+      expect(model.findOne).toHaveBeenCalledWith({ userId, _id: itemId });
+      expect(result).toMatchSnapshot();
     });
   });
   describe('create', () => {
     beforeEach(() => {
-      mockModel.create.mockResolvedValue(modelInstance);
+      model.create.mockResolvedValue(makeDBObject({
+        _id: createObjectId('312'),
+        name: 'Macy',
+        userId
+      }));
     });
-
-    // TODO: Update when nestjs allows for proper validation of multiple items
-    // it('creates multiple items', async () => {
-    //   const items = [
-    //     {
-    //       name: 'jake',
-    //       age: 29
-    //     },
-    //     {
-    //       name: 'paul',
-    //       age: 54
-    //     },
-    //     {
-    //       name: 'mark',
-    //       age: 34
-    //     }
-    //   ];
-    //
-    //   const result = await loggedInService.create(userId, items);
-    //   expect(result).toBe(modelInstance);
-    //   expect(mockModel.create).toHaveBeenCalledWith([
-    //     {
-    //       userId,
-    //       name: 'jake',
-    //       age: 29
-    //     },
-    //     {
-    //       userId,
-    //       name: 'paul',
-    //       age: 54
-    //     },
-    //     {
-    //       userId,
-    //       name: 'mark',
-    //       age: 34
-    //     }
-    //   ]);
-    // });
+    it('creates an item with user id', async () => {
+      const result = await service.create(userId, {
+        name: 'Macy'
+      });
+      expect(result).toMatchSnapshot();
+    });
   });
   describe('updateById', () => {
     beforeEach(() => {
-      mockModel.findOneAndUpdate.mockReturnValue({
-        exec: () => Promise.resolve(modelInstance)
-      });
+      model.updateOne.mockReturnValue(makeExecMethod(
+        makeDBObject({
+          _id: createObjectId('update_id'),
+          name: 'jack',
+          userId
+        })
+      ));
     });
-
-    it('updates an item by it\'s id', async () => {
-      const id = 'afadsfasd';
+    it('updates an item by id', async () => {
+      const itemId = 'item_id';
       const newItem = {
-        _id: 'id',
-        name: 'different',
-        age: 6246234
+        name: 'jack'
       };
-      const result = await loggedInService.updateById(userId, id, newItem);
-      expect(result).toBe(modelInstance);
-      expect(mockModel.findOneAndUpdate).toHaveBeenCalledWith({ userId, _id: id }, { ...newItem, userId });
+      const result = await service.updateById(userId, itemId, { ...newItem, id: 'SHOULD BE DELETED' });
+      expect(model.updateOne).toHaveBeenCalledWith({ userId, _id: itemId }, newItem);
+      expect(result).toMatchSnapshot();
     });
   });
   describe('deleteById', () => {
     beforeEach(() => {
-      mockModel.deleteOne.mockReturnValue({
-        exec: () => Promise.resolve(modelInstance)
-      });
+      model.deleteOne.mockReturnValue(makeExecMethod('DONE'));
     });
-
-    it('removes one item by id', async () => {
-      const id = 'adfasdfasd';
-      await loggedInService.deleteById(userId, id);
-      expect(mockModel.deleteOne).toHaveBeenCalledWith({ userId, _id: id });
+    it('deletes the item by id', async () => {
+      const itemId = 'item_id';
+      const result = await service.deleteById(userId, itemId);
+      expect(model.deleteOne).toBeCalledWith({ userId, _id: itemId });
+      expect(result).toBe('DONE'); // Makes sure that deleteOne is awaited
     });
   });
 });
