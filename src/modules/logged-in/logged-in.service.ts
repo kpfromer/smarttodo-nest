@@ -50,7 +50,7 @@ export class LoggedInService<T, R = WithMongoId<T>> {
 
   async updateById(userId: string, id: string, newItem: T & { id?: string }) {
     delete newItem.id;
-    return this.sanitize(await this.model.updateOne({ userId, _id: id }, newItem).exec());
+    return this.sanitize(await this.model.findOneAndUpdate({ userId, _id: id }, newItem).exec() as CreatedLoggedInModel<T>);
   }
 
   async deleteById(userId: string, id: string) {

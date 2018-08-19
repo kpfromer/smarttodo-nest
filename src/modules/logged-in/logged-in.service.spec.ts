@@ -16,7 +16,7 @@ describe('LoggedInService', () => {
     model = {
       find: jest.fn(),
       findOne: jest.fn(),
-      updateOne: jest.fn(),
+      findOneAndUpdate: jest.fn(),
       create: jest.fn(),
       deleteOne: jest.fn()
     };
@@ -97,7 +97,7 @@ describe('LoggedInService', () => {
   });
   describe('updateById', () => {
     beforeEach(() => {
-      model.updateOne.mockReturnValue(makeExecMethod(
+      model.findOneAndUpdate.mockReturnValue(makeExecMethod(
         makeDBObject({
           _id: createObjectId('update_id'),
           name: 'jack',
@@ -111,7 +111,7 @@ describe('LoggedInService', () => {
         name: 'jack'
       };
       const result = await service.updateById(userId, itemId, { ...newItem, id: 'SHOULD BE DELETED' });
-      expect(model.updateOne).toHaveBeenCalledWith({ userId, _id: itemId }, newItem);
+      expect(model.findOneAndUpdate).toHaveBeenCalledWith({ userId, _id: itemId }, newItem);
       expect(result).toMatchSnapshot();
     });
   });
