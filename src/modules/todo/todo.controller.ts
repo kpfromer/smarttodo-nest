@@ -12,7 +12,7 @@ import { LoggedInService } from '../logged-in/logged-in.service';
 @UseGuards(AuthGuard('jwt'))
 export class TodoController {
 
-  private readonly todoService: LoggedInService<Todo>;
+  private readonly todoService: LoggedInPositionService<TodoDto>;
 
   constructor(@InjectModel(Todo) private readonly todoModel: ModelType<Todo>, @Inject(LoggedInService) todoService) {
     this.todoService = new todoService(todoModel);
