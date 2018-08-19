@@ -6,20 +6,22 @@ import { IsObjectIdPipe } from '../../pipe/is-objectid.pipe';
 import { InjectModel } from 'nestjs-typegoose';
 import { Todo } from '../../model/todo.model';
 import { ModelType } from 'typegoose';
+import { LoggedInPositionService } from '../logged-in/logged-in-position.service';
 import { LoggedInService } from '../logged-in/logged-in.service';
 
 @Controller()
 @UseGuards(AuthGuard('jwt'))
 export class TodoController {
 
-  private readonly todoService: LoggedInPositionService<TodoDto>;
+  private readonly todoService: LoggedInService<TodoDto>;
 
+  // TODO: change back to LoggedInPositionedService
   constructor(@InjectModel(Todo) private readonly todoModel: ModelType<Todo>, @Inject(LoggedInService) todoService) {
     this.todoService = new todoService(todoModel);
   }
 
   @Get()
-  async getTodos(@UserId() userId) {
+  async getTodos(@UserId() userId: string) {
     return await this.todoService.getAll(userId);
   }
 
